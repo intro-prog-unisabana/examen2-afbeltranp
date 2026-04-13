@@ -11,8 +11,7 @@ def init(max_laps):
     """
     Crea y retorna un diccionario para almacenar hasta max_laps vueltas.
     """
-    # TODO: Implementar
-    pass
+    return {"max": max_laps, "times": [], "total": 0.0}
 
 
 def add_lap(timer, time):
@@ -20,24 +19,23 @@ def add_lap(timer, time):
     Agrega una nueva vuelta con el tiempo especificado.
     Retorna el diccionario modificado.
     """
-    # TODO: Implementar
-    pass
+    timer["times"].append(time)
+    timer["total"] += time
+    return timer
 
 
 def count(timer):
     """
     Retorna el numero de vueltas agregadas.
     """
-    # TODO: Implementar
-    pass
+    return len(timer["times"])
 
 
 def cumulative_time(timer):
     """
     Retorna el tiempo acumulado de todas las vueltas.
     """
-    # TODO: Implementar
-    pass
+    return timer["total"]
 
 
 def format_laps(timer):
@@ -45,24 +43,31 @@ def format_laps(timer):
     Retorna una representacion en cadena de los tiempos.
     Formato: [t1, t2, t3, ..., tn]
     """
-    # TODO: Implementar
-    pass
+    return str(timer["times"])
 
 
 def fastest_lap(timer):
     """
     Retorna el tiempo mas rapido de cualquier vuelta.
     """
-    # TODO: Implementar
-    pass
+    return min(timer["times"])
 
 
 def fastest_multi_lap(timer, k):
     """
     Retorna el tiempo acumulado mas rapido de cualquier k vueltas consecutivas.
     """
-    # TODO: Implementar
-    pass
+    times = timer["times"]
+    window_sum = sum(times[:k])
+    best = window_sum
+
+    for i in range(k, len(times)):
+        window_sum += times[i]
+        window_sum -= times[i - k]
+        if window_sum < best:
+            best = window_sum
+
+    return best
 
 
 def longest_decreasing_streak(timer):
@@ -70,8 +75,19 @@ def longest_decreasing_streak(timer):
     Retorna la longitud maxima de una secuencia de vueltas consecutivas
     donde los tiempos disminuyen estrictamente.
     """
-    # TODO: Implementar
-    pass
+    times = timer["times"]
+    longest = 1
+    current = 1
+
+    for i in range(1, len(times)):
+        if times[i] < times[i - 1]:
+            current += 1
+            if current > longest:
+                longest = current
+        else:
+            current = 1
+
+    return longest
 
 
 def main():
